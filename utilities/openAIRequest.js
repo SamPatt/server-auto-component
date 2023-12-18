@@ -19,15 +19,22 @@ async function aiRequest(conversationHistory, userRequest, baseHtml) {
         ],
     };
 
-    // Construct the prompt including baseRequest and userRequest
-    let prompt = `Task: ${baseRequest.Task}\nRequirement: ${baseRequest.Requirement}\nGuidelines: ${baseRequest.Guidelines.join('\n')}\nUser Request: ${userRequest}\nHTML Context: ${baseHtml}`;
+    // Add base request as a system message only if it's a new conversation
+    if (conversationHistory.length === 0) {
+        let systemMessageContent = `Task: ${baseRequest.Task}\nRequirement: ${baseRequest.Requirement}\nGuidelines: ${baseRequest.Guidelines.join('\n')}`;
+        conversationHistory.push({ role: "system", content: systemMessageContent });
+    }
 
+    // Construct the user prompt including userRequest and baseHtml
+    let userPrompt = `User Request: ${userRequest}\nHTML Context: ${baseHtml}`;
+    
     // Append the new user request to the conversation history
-    conversationHistory.push({ role: "user", content: prompt });
+    conversationHistory.push({ role: "user", content: userPrompt });
 
     const completion = await openai.chat.completions.create({
         messages: conversationHistory,
         model: "gpt-3.5-turbo",
+        max_tokens: 256,
     });
 
     // Append the assistant's response to the conversation history
@@ -35,6 +42,7 @@ async function aiRequest(conversationHistory, userRequest, baseHtml) {
 
     return conversationHistory;
 }
+
 
 module.exports = {
     aiRequest,
