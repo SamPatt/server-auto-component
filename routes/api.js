@@ -3,7 +3,9 @@ const router = express.Router()
 const apiCtrl = require('../controllers/api')
 
 // GET module - index
-router.get("/", apiCtrl.index);
+// router.get("/", apiCtrl.index);
+
+router.post("/", apiCtrl.apiResponse);
 
 // // POST module - create
 // router.post("/", apiCtrl.create);
