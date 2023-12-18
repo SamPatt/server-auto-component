@@ -1,7 +1,7 @@
 const OpenAI = require("openai")
 
 const openai = new OpenAI(process.env.OPENAI_API_KEY);
-
+const { formatValidResponse } = require('./formatResponse.js');
 
 async function aiRequest(conversationHistory, userRequest, baseHtml) {
     const baseRequest = {
@@ -34,11 +34,16 @@ async function aiRequest(conversationHistory, userRequest, baseHtml) {
     const completion = await openai.chat.completions.create({
         messages: conversationHistory,
         model: "gpt-3.5-turbo",
-        max_tokens: 256,
+        max_tokens: 500,
     });
 
-    // Append the assistant's response to the conversation history
-    conversationHistory.push(completion.choices[0].message);
+    // Format the AI response to be valid
+    const rawAiResponse = completion.choices[0].message;
+    console.log(rawAiResponse);
+    const validAiResponse = formatValidResponse(rawAiResponse.content);
+
+    // Append the formatted response to the conversation history
+    conversationHistory.push({ role: "assistant", content: validAiResponse });
 
     return conversationHistory;
 }
