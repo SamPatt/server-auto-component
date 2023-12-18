@@ -1,31 +1,36 @@
 const openAIRequest = require('../utilities/openAIRequest.js');
 
-// const index = async (req, res, next) => {
-//   try {
-//     openAIRequest.main();
-//     res.send("hello world");
-//     // .status(201)
-//     // .json(await Module.find({}))
-//   } catch (err) {
-//     res.status(400).json({ err: err.message });
-//   }
-// };
+// In-memory storage for conversation history
+let conversationHistories = {};
 
 const apiResponse = async (req, res, next) => {
-    try {
-      // Extract text and html from the request body
-      const { request, html } = req.body;
-  
-      // Call the OpenAI API with the extracted parameters
-      const aiResponse = await openAIRequest.aiRequest(request, html);
-      res.status(200).json(aiResponse);
-    } catch (err) {
-      res.status(400).json({ err: err.message });
+  try {
+    // Extract userId, request, and html from the request body
+    const { userId, request, html } = req.body;
+
+    // Validate userId
+    if (!userId) {
+      throw new Error("UserId is required");
     }
-  };
-  
+
+    // Retrieve existing conversation history, or start a new one
+    let history = conversationHistories[userId] || [];
+
+    // Call the OpenAI API with the extracted parameters
+    const updatedHistory = await openAIRequest.aiRequest(history, request, html);
+
+    // Store the updated history
+    conversationHistories[userId] = updatedHistory;
+
+    // Return the latest response in the history
+    const latestResponse = updatedHistory[updatedHistory.length - 1];
+
+    res.status(200).json({ response: latestResponse, history: updatedHistory });
+  } catch (err) {
+    res.status(400).json({ err: err.message });
+  }
+};
 
 module.exports = {
-//   index,
   apiResponse
 };
