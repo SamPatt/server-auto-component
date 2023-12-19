@@ -39,7 +39,7 @@ async function aiRequest(conversationHistory, userRequest, baseHtml) {
 
     // Format the AI response to be valid
     const rawAiResponse = completion.choices[0].message;
-    console.log(rawAiResponse);
+    console.log("Raw AI Response: ", rawAiResponse);
     const validAiResponse = formatValidResponse(rawAiResponse.content);
 
     // Append the formatted response to the conversation history
