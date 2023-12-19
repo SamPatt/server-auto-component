@@ -6,7 +6,7 @@ const { formatValidResponse } = require('./formatResponse.js');
 async function aiRequest(conversationHistory, userRequest, baseHtml) {
     const baseRequest = {
         Task: `You are a coding assistant. Create a new JSX element to replace the element with id 'auto-component-container'. Your returned code will be placed within a React component's return() statement. Follow the guidelines EXTREMELY STRICTLY`,
-        Requirement: `Find the div with id 'auto-component-container' in the HTML Context and provide ONLY the element that fits within its place`,
+        Requirement: `Find the div with id 'auto-component-container' in the HTML Context and provide ONLY the element that fits within its place. This new element should have no classsname.`,
         Guidelines: [
             `ONLY respond with the CODE you create. Do not provide any additional details or notes about your code, decision making, final product, etc., before OR after the code statement.`,
             `ONLY respond with code that belongs inside the React fragment.`,
