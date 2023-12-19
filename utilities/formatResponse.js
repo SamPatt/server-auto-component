@@ -12,6 +12,9 @@ function formatValidResponse(aiResponse) {
     // Remove everything before the first valid opening tag
     cleanedResponse = cleanedResponse.substring(firstValidTagStart);
 
+    // Remove closing React fragment if present
+    cleanedResponse = cleanedResponse.replace(/<\/>$/g, '');
+
     return cleanedResponse;
 }
 
