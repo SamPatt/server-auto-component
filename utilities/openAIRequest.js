@@ -36,7 +36,6 @@ async function aiRequest(conversationHistory, userRequest) {
     const completion = await openai.chat.completions.create({
         messages: historyToUse,
         model: "gpt-3.5-turbo-1106",
-        max_tokens: 500,
     });
 
     // Format the AI response to be valid
