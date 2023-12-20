@@ -14,7 +14,7 @@ require("./config/db.connections.js")
 require('./config/passport');
 
 const { PORT } = process.env;
-const modulesRouter = require('./routes/modules.js')
+const indexRouter = require('./routes/index.js')
 const apiRouter = require('./routes/api.js')
 const userRouter = require('./routes/user.js')
 
@@ -49,9 +49,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use("/module", modulesRouter);
 app.use("/api", apiRouter);
-app.use("/login", userRouter)
+app.use("/", indexRouter)
+app.use("/user", userRouter)
 
 app.get("/", (req, res) => {
   res.send("npm i -D auto-component");

@@ -1,7 +1,7 @@
 const User = require("../models/User");
 
 module.exports = {
-  create,
+  index,
   delete: deleteUser,
 };
 
@@ -12,12 +12,13 @@ async function deleteUser(req, res) {
   })
 }
 
-async function create(req, res) {
+async function index(req, res) {
   try {
     // const user = await User.create(req.body);
     // await user.save();
 
-    console.log(req.body)
+    res.send(req.user)
+
     // res.redirect("/profiles/new");
   } catch (err) {
     console.log(err);

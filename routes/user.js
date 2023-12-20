@@ -3,4 +3,6 @@ const router = express.Router()
 const userCtrl = require('../controllers/user')
 
 // GET module - user
-router.get("/", userCtrl.create);
+router.get("/", userCtrl.index)
+
+module.exports = router
