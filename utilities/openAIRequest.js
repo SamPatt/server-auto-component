@@ -33,7 +33,7 @@ async function aiRequest(conversationHistory, userRequest, baseHtml) {
 
     const completion = await openai.chat.completions.create({
         messages: conversationHistory,
-        model: "gpt-3.5-turbo",
+        model: "gpt-3.5-turbo-1106",
         max_tokens: 500,
     });
 

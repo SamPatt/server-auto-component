@@ -31,6 +31,17 @@ const apiResponse = async (req, res, next) => {
   }
 };
 
+const getResponse = async (req, res, next) => {
+  try {
+
+
+    res.status(200).json({ response: "Use POST" });
+  } catch (err) {
+    res.status(400).json({ err: err.message });
+  }
+};
+
 module.exports = {
-  apiResponse
+  apiResponse,
+  getResponse
 };

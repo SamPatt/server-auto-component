@@ -7,6 +7,8 @@ const apiCtrl = require('../controllers/api')
 
 router.post("/", apiCtrl.apiResponse);
 
+router.get("/", apiCtrl.getResponse);
+
 // // POST module - create
 // router.post("/", apiCtrl.create);
 
