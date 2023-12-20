@@ -1,4 +1,5 @@
 const openAIRequest = require('../utilities/openAIRequest.js');
+const { pruneHistory } = require('../utilities/pruneHistory.js');
 
 // In-memory storage for conversation history
 let conversationHistories = {};
@@ -20,7 +21,7 @@ const apiResponse = async (req, res, next) => {
     const updatedHistory = await openAIRequest.aiRequest(history, request, html);
 
     // Store the updated history
-    conversationHistories[userId] = updatedHistory;
+    conversationHistories[userId] = pruneHistory(updatedHistory);
 
     // Return the latest response in the history
     const latestResponse = updatedHistory[updatedHistory.length - 1];
