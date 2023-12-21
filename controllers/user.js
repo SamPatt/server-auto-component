@@ -14,20 +14,22 @@ async function deleteUser(req, res) {
 
 async function index(req, res) {
   try {
-
-    // const user = await User.create(req.body);
-    // await user.save();
-        
     if (req.isAuthenticated()) {
-      // Send back user data as JSON
-      res.send(req.user);
+      // Get user data from req.user
+      const userData = {
+        id: req.user.id,
+        username: req.user.username,
+        // Include other user data as needed
+      };
+
+      // Redirect to the frontend route with user data as query parameters
+      res.redirect(`/user?userData=${encodeURIComponent(JSON.stringify(userData))}`);
     } else {
       // Handle the case where the user is not authenticated
       res.status(401).json({ error: 'Unauthorized' });
     }
-
-    // res.redirect("/profiles/new");
   } catch (err) {
     console.log(err);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 }
