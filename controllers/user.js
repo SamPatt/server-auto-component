@@ -14,10 +14,17 @@ async function deleteUser(req, res) {
 
 async function index(req, res) {
   try {
+
     // const user = await User.create(req.body);
     // await user.save();
-
-    res.send(req.user)
+        
+    if (req.isAuthenticated()) {
+      // Send back user data as JSON
+      res.send(req.user);
+    } else {
+      // Handle the case where the user is not authenticated
+      res.status(401).json({ error: 'Unauthorized' });
+    }
 
     // res.redirect("/profiles/new");
   } catch (err) {

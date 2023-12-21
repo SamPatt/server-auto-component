@@ -13,7 +13,7 @@ require("dotenv").config();
 require("./config/db.connections.js")
 require('./config/passport');
 
-const { PORT } = process.env;
+const { PORT } = process.env || 4000;
 const indexRouter = require('./routes/index.js')
 const apiRouter = require('./routes/api.js')
 const userRouter = require('./routes/user.js')
@@ -49,8 +49,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api", apiRouter);
 app.use("/", indexRouter)
+app.use("/api", apiRouter);
 app.use("/user", userRouter)
 
 app.get("/", (req, res) => {
