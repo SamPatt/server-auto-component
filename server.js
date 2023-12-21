@@ -40,10 +40,9 @@ app.use(function(req, res, next) {
   res.locals.user = req.user
   next()
 }) 
-
-app.use("/", indexRouter)
-app.use("/api", apiRouter);
 app.use("/user", userRouter)
+app.use("/api", apiRouter);
+app.use("/", indexRouter)
 
 app.get("/", (req, res) => {
   res.send("npm i -D auto-component");
